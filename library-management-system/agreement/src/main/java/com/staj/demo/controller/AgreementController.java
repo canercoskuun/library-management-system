@@ -73,6 +73,17 @@ public class AgreementController {
         }
     }
 
+    //Tüm anlaşmaları getiren endpoint
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllAgreements() {
+        try {
+            List<Agreement> agreements = agreementService.getAllAgreements();
+            return ResponseEntity.ok(agreements);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 
 }
