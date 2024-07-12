@@ -12,6 +12,12 @@ public class CheckUserDelegate implements JavaDelegate {
     private UserService userService;
     @Override
     public void execute(DelegateExecution execution) {
+        boolean user_t = (Boolean) execution.getVariable("user_trustable");
+
+        if(!user_t){
+            throw new RuntimeException("User is not trustable!");
+        }
+        execution.setVariable("user_trustable", user_t);
 
     }
 }
