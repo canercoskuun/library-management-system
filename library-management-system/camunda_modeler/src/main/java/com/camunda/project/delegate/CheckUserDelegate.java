@@ -17,7 +17,5 @@ public class CheckUserDelegate implements JavaDelegate {
         if(!user_t){
             throw new RuntimeException("User is not trustable!");
         }
-        execution.setVariable("user_trustable", user_t);
-
     }
 }

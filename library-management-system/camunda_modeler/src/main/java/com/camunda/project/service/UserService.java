@@ -16,27 +16,26 @@ import java.util.List;
 @Service
 public class UserService {
 
-    public boolean checkUser(UserRequest userRequest){ //public boolean
+    public boolean checkUser(UserRequest userRequest){
         try {
-            final String uri = "http://localhost:8080/api/management/user/check"; //url for member check in management
+            final String uri = "http://localhost:8082/api/management/user/check"; //url for user check in management(Management sends request to UserRepo)
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<UserRequest> requestEntity = new HttpEntity<>(userRequest);
 
-            ResponseEntity<List<User>> response = restTemplate.exchange(
+            ResponseEntity<Boolean> response = restTemplate.exchange(
                     uri,
                     HttpMethod.POST,
                     requestEntity,
-                    new ParameterizedTypeReference<List<User>>() {
+                    new ParameterizedTypeReference<Boolean>() {
                     }
             );
 
-            List<User> result = response.getBody();
-            //return result.get(0).getTrustable; user -> trustable (?) ya da ?exists
-            return true;
+            Boolean result = response.getBody();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return true;
+            return false;
         }
     }
 }

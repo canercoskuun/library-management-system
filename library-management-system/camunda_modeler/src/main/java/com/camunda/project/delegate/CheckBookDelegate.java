@@ -14,7 +14,5 @@ public class CheckBookDelegate implements JavaDelegate {
         if(!book_av){
             throw new RuntimeException("Book is not available!");
         }
-        execution.setVariable("book_available", book_av);
-
     }
 }
