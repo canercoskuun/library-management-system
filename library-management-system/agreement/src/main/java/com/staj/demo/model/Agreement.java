@@ -13,11 +13,11 @@ public class Agreement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)  // User tablosundaki user_id ile ilişki kurar
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)  // Book tablosundaki book_id ile ilişki kurar
     private Book book;
 

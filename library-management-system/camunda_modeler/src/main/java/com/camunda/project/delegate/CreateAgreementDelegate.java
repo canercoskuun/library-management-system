@@ -12,7 +12,11 @@ public class CreateAgreementDelegate implements JavaDelegate {
     private AgreementService agreementService;
     @Override
     public void execute(DelegateExecution execution) {
-
+        try {
+            System.out.println("Agreement created successfully.");
+        } catch (Exception e) {
+            System.err.println("Error while creating borrow: " + e.getMessage());
+        }
     }
 
 }
