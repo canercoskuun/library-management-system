@@ -46,10 +46,10 @@ public class AgreementService {
             variables.put("user_trustable", userService.checkUser(user_request));
 
             ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
-                    "process", variables
+                    "StajProjectModeler-process", variables
             );
 
-            final String uri = "http://localhost:8080/api/management/agreement/create"; //url for agreement creation process in management
+            final String uri = "http://localhost:8082/api/management/agreement/create"; //url for agreement creation process in management(Management sends request to AgreementRepo)
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<AgreementRequest> requestEntity = new HttpEntity<>(agreementRequest);

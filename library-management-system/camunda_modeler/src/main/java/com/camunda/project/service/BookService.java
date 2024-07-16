@@ -15,27 +15,25 @@ import java.util.List;
 
 @Service
 public class BookService {
-    public boolean checkBook(BookRequest bookRequest){ //public boolean
+    public boolean checkBook(BookRequest bookRequest){
         try {
-            final String uri = "http://localhost:8080/api/management/book/check"; //url for book check in management
+            final String uri = "http://localhost:8082/api/management/book/check"; //url for book check in management (Management sends requests to BookRepo)
 
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<BookRequest> requestEntity = new HttpEntity<>(bookRequest);
 
-            ResponseEntity<List<Book>> response = restTemplate.exchange(
+            ResponseEntity<Boolean> response = restTemplate.exchange(
                     uri,
                     HttpMethod.POST,
                     requestEntity,
-                    new ParameterizedTypeReference<List<Book>>() {
+                    new ParameterizedTypeReference<Boolean>() {
                     }
             );
-
-            List<Book> result = response.getBody();
-            //return result.get(0).getAvailable; book için available attribute eklenmeli
-            return true;
+            Boolean result = response.getBody();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return true;
+            return false;
         }
     }
 }
