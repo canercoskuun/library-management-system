@@ -1,14 +1,23 @@
 package com.camunda.project.delegate;
 
 import com.camunda.project.dto.AgreementRequest;
+import com.camunda.project.model.Agreement;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class AgreementRequestDelegate implements JavaDelegate {
+    Expression serviceUrl;
 
     @Override
     public void execute(DelegateExecution execution) {
@@ -24,10 +33,20 @@ public class AgreementRequestDelegate implements JavaDelegate {
         agreementRequest.setBorrowDate(borrow_date);
         agreementRequest.setReturnDate(return_date);
 
-        try {
-            System.out.println("Agreement request created successfully.");
-        } catch (Exception e) {
-            System.err.println("Error while creating agreement request: " + e.getMessage());
-        }
+        final String uri = "http://localhost:8082/api/management/" + serviceUrl.getExpressionText();
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<AgreementRequest> requestEntity = new HttpEntity<>(agreementRequest);
+
+        ResponseEntity<List<Agreement>> response = restTemplate.exchange(
+                uri,
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<List<Agreement>>() {
+                }
+        );
+
+        List<Agreement> result = response.getBody();
+        throw new RuntimeException("e");
     }
 }

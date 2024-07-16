@@ -27,16 +27,16 @@ public class AgreementService {
     private final RuntimeService runtimeService;
 
     @Autowired
-    public AgreementService(BookService bookService, UserService userService, RuntimeService runtimeService){
+    public AgreementService(BookService bookService, UserService userService, RuntimeService runtimeService) {
         this.bookService = bookService;
         this.userService = userService;
         this.runtimeService = runtimeService;
     }
 
-    public List<Agreement> createAgreement(AgreementRequest agreementRequest) {
+    public void startModel(AgreementRequest agreementRequest) {
         try {
             Map<String, Object> variables = new HashMap<>();
-            variables.put("book_id",agreementRequest.getBook_id());
+            variables.put("book_id", agreementRequest.getBook_id());
             variables.put("user_id", agreementRequest.getUser_id());
             variables.put("borrow_date", agreementRequest.getBorrowDate());
             variables.put("return_date", agreementRequest.getReturnDate());
@@ -49,24 +49,9 @@ public class AgreementService {
                     "StajProjectModeler-process", variables
             );
 
-            final String uri = "http://localhost:8082/api/management/agreement/create"; //url for agreement creation process in management(Management sends request to AgreementRepo)
-
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<AgreementRequest> requestEntity = new HttpEntity<>(agreementRequest);
-
-            ResponseEntity<List<Agreement>> response = restTemplate.exchange(
-                    uri,
-                    HttpMethod.POST,
-                    requestEntity,
-                    new ParameterizedTypeReference<List<Agreement>>() {
-                    }
-            );
-
-            List<Agreement> result = response.getBody();
-            return result;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException("e");
         }
     }
 }

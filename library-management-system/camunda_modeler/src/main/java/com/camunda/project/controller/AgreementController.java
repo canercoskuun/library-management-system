@@ -27,8 +27,8 @@ public class AgreementController {
     }
 
     @PostMapping("/start")
-    public List<Agreement> createAgreement(@RequestBody AgreementRequest agreementRequest){
-       return agreementService.createAgreement(agreementRequest);
+    public void createAgreement(@RequestBody AgreementRequest agreementRequest){
+       agreementService.startModel(agreementRequest);
     }
 
 
