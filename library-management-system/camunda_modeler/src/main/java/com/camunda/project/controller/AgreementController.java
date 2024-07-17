@@ -1,6 +1,7 @@
 package com.camunda.project.controller;
 
 import com.camunda.project.dto.AgreementRequest;
+import com.camunda.project.dto.Response;
 import com.camunda.project.model.Agreement;
 import com.camunda.project.service.AgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class AgreementController {
     }
 
     @PostMapping("/start")
-    public void createAgreement(@RequestBody AgreementRequest agreementRequest){
-       agreementService.startModel(agreementRequest);
+    public Response createAgreement(@RequestBody AgreementRequest agreementRequest){
+       return new Response(200,"successful",agreementService.startModel(agreementRequest) );
     }
 
 
