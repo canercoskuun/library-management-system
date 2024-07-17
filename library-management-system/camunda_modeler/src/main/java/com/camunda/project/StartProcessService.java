@@ -15,5 +15,4 @@ public class StartProcessService {
     public void getRequiredParameters(){
         runtime.startProcessInstanceById("StajProjectModeler-process");
     }
-
 }
