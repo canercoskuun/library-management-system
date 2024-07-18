@@ -1,22 +1,12 @@
 package com.camunda.project.controller;
 
 import com.camunda.project.dto.AgreementRequest;
-import com.camunda.project.dto.Response;
-import com.camunda.project.model.Agreement;
 import com.camunda.project.service.AgreementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/model/agreement")
@@ -28,8 +18,8 @@ public class AgreementController {
     }
 
     @PostMapping("/start")
-    public Response createAgreement(@RequestBody AgreementRequest agreementRequest){
-       return new Response(200,"successful",agreementService.startModel(agreementRequest) );
+    public String createAgreement(@RequestBody AgreementRequest agreementRequest){
+      return agreementService.startModel(agreementRequest);
     }
 
 

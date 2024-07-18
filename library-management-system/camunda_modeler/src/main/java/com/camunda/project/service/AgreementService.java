@@ -19,7 +19,7 @@ public class AgreementService {
         this.runtimeService = runtimeService;
     }
 
-    public long startModel(AgreementRequest agreementRequest) {
+    public String startModel(AgreementRequest agreementRequest) {
         try {
             Map<String, Object> variables = new HashMap<>();
             variables.put("book_id", agreementRequest.getBook_id());
@@ -30,8 +30,7 @@ public class AgreementService {
             ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
                     "StajProjectModeler-process", variables
             );
-            long responseVariable = (long) runtimeService.getVariable(processInstance.getId(), "agreement_id");
-            return responseVariable;
+            return "Model worked successfully.";
 
 
 

@@ -4,7 +4,7 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_1p5cnol</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:endEvent id="EndEvent_0x6ir2l">
+    <bpmn:endEvent id="EndEvent_0x6ir2l" camunda:asyncBefore="true">
       <bpmn:incoming>Flow_1xez9w3</bpmn:incoming>
       <bpmn:incoming>Flow_1gpnbti</bpmn:incoming>
     </bpmn:endEvent>
@@ -14,11 +14,8 @@
       <bpmn:outgoing>Flow_1xez9w3</bpmn:outgoing>
       <bpmn:outgoing>Flow_175dsej</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="checkbook_activity" name="Check book availability" camunda:asyncBefore="true" camunda:expression="com.camunda.project.delegate.CheckBookDelegate" camunda:resultVariable="book_available">
+    <bpmn:serviceTask id="checkbook_activity" name="Check book availability" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
       <bpmn:extensionElements>
-        <camunda:field name="responseVar">
-          <camunda:string>code,message,data</camunda:string>
-        </camunda:field>
         <camunda:field name="serviceUrl">
           <camunda:string>book/check</camunda:string>
         </camunda:field>
@@ -27,11 +24,8 @@
       <bpmn:incoming>Flow_10jmmcy</bpmn:incoming>
       <bpmn:outgoing>Flow_1pn26ec</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="checkuser_activity" name="Check user trustabiliity" camunda:asyncBefore="true" camunda:expression="com.camunda.project.delegate.CheckUserDelegate" camunda:resultVariable="user_trustable">
+    <bpmn:serviceTask id="checkuser_activity" name="Check user trustabiliity" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
       <bpmn:extensionElements>
-        <camunda:field name="responseVar">
-          <camunda:string>code,message,data</camunda:string>
-        </camunda:field>
         <camunda:field name="serviceUrl">
           <camunda:string>user/check</camunda:string>
         </camunda:field>
@@ -40,23 +34,20 @@
       <bpmn:incoming>Flow_1h7eqx4</bpmn:incoming>
       <bpmn:outgoing>Flow_1lt2fos</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="agreement_activity" name="Create agreement" camunda:asyncBefore="true" camunda:class="com.camunda.project.delegate.CreateAgreementDelegate">
+    <bpmn:serviceTask id="agreement_activity" name="Create agreement" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
       <bpmn:extensionElements>
         <camunda:field name="serviceUrl">
           <camunda:string>agreement/create</camunda:string>
-        </camunda:field>
-        <camunda:field name="responseVar">
-          <camunda:string>code,message,data</camunda:string>
         </camunda:field>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_175dsej</bpmn:incoming>
       <bpmn:incoming>Flow_0kb005i</bpmn:incoming>
       <bpmn:outgoing>Flow_1pvvh9w</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="request_activity" name="Agreement Request" camunda:asyncBefore="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
+    <bpmn:serviceTask id="request_activity" name="Agreement Request" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
       <bpmn:extensionElements>
-        <camunda:field name="responseVar">
-          <camunda:string>code,message,data</camunda:string>
+        <camunda:field name="serviceUrl">
+          <camunda:string>request</camunda:string>
         </camunda:field>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1p5cnol</bpmn:incoming>
@@ -105,7 +96,7 @@
     <bpmn:sequenceFlow id="Flow_1lt2fos" name="trustable" sourceRef="checkuser_activity" targetRef="Gateway_0hll0np" />
     <bpmn:sequenceFlow id="Flow_1pn26ec" name="availability" sourceRef="checkbook_activity" targetRef="Gateway_0hll0np" />
     <bpmn:sequenceFlow id="Flow_175dsej" name="true" sourceRef="Gateway_0hll0np" targetRef="agreement_activity">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${book_available == true &amp;&amp; member_reliable == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${book_available == true &amp;&amp; member_trustable == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0t3vekf" sourceRef="Activity_0wnp50k" targetRef="checkbook_activity" />
     <bpmn:sequenceFlow id="Flow_10jmmcy" sourceRef="Gateway_1vvtugh" targetRef="checkbook_activity" />
@@ -118,13 +109,10 @@
     <bpmn:sequenceFlow id="Flow_0dgwzhq" sourceRef="Event_0t0fel9" targetRef="Activity_1xrnccu" />
     <bpmn:sequenceFlow id="Flow_00d38p1" sourceRef="Event_1uzcllc" targetRef="Activity_0z0c3wz" />
     <bpmn:sequenceFlow id="Flow_0hozkex" sourceRef="Event_04rcp3b" targetRef="new_error" />
-    <bpmn:serviceTask id="notification_activity" name="Send notification" camunda:asyncBefore="true" camunda:class="com.camunda.project.delegate.NotificationDelegate">
+    <bpmn:serviceTask id="notification_activity" name="Send notification" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:class="com.camunda.project.delegate.AgreementRequestDelegate">
       <bpmn:extensionElements>
         <camunda:field name="serviceUrl">
           <camunda:string>notification/send</camunda:string>
-        </camunda:field>
-        <camunda:field name="responseVar">
-          <camunda:string>code,message,data</camunda:string>
         </camunda:field>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1pvvh9w</bpmn:incoming>
