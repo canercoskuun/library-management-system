@@ -20,7 +20,11 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        userService.addUser(user);
-        return ResponseEntity.ok("User created successfully");
+        try {
+            userService.addUser(user);
+            return ResponseEntity.ok("User created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
