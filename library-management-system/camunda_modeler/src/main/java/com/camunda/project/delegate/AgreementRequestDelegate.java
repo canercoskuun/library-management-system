@@ -38,6 +38,7 @@ public class AgreementRequestDelegate implements JavaDelegate {
         if(!serviceUrl.getExpressionText().equals("request")) {
 
             final String uri = "http://localhost:8082/api/management/" + serviceUrl.getExpressionText();
+            //the corresponding controller methods should return "map"
             //in the management repo, agreement creation url should be: http://localhost:8082/api/management/agreement/create
             // and response should be agreement_id
             //the notification url should be: http://localhost:8082/notification/send

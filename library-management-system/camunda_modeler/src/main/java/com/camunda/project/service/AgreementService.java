@@ -1,6 +1,7 @@
 package com.camunda.project.service;
 
 import com.camunda.project.dto.AgreementRequest;
+import com.camunda.project.dto.Response;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class AgreementService {
         this.runtimeService = runtimeService;
     }
 
-    public String startModel(AgreementRequest agreementRequest) {
+    public Response startModel(AgreementRequest agreementRequest) {
         try {
             Map<String, Object> variables = new HashMap<>();
             variables.put("book_id", agreementRequest.getBook_id());
@@ -30,13 +31,10 @@ public class AgreementService {
             ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
                     "StajProjectModeler-process", variables
             );
-            return "Model worked successfully.";
-
-
-
+            return new Response(200,"Model worked succesfully.", "Process instance id: " + processInstance.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("e");
+           return new Response(500, "An error occured.", null);
         }
     }
 }
