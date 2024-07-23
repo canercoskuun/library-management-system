@@ -14,7 +14,7 @@ public class EmailService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
         mailMessage.setSubject("Library-Management-System");
-        mailMessage.setText(user.getEmail() +" adresi ile başarılı bir şekilde kayıt oldunuz.");
+        mailMessage.setText("Lütfen kitabınızı gün içinde iade ediniz.");
         mailMessage.setFrom("canercoskun51@gmail.com");
         javaMailSender.send(mailMessage);
         System.out.println("Mail gönderildi");
