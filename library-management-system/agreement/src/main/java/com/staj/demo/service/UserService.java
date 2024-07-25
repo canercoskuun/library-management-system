@@ -11,12 +11,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Service
 public class UserService {
-
     private UserRepository userRepository;
-   private EmailService emailService;
-
     public User addUser(User user) {
-        emailService.sendMail(user);
         return userRepository.save(user);
     }
 
