@@ -6,6 +6,9 @@
       <list>
         <option value="$PROJECT_DIR$/library-management-system/camunda_modeler/pom.xml" />
         <option value="$PROJECT_DIR$/library-management-system/agreement/pom.xml" />
+        <option value="$PROJECT_DIR$/library-management-system/discovery-service/pom.xml" />
+        <option value="$PROJECT_DIR$/library-management-system/job/pom.xml" />
+        <option value="$PROJECT_DIR$/library-management-system/notification/pom.xml" />
       </list>
     </option>
   </component>

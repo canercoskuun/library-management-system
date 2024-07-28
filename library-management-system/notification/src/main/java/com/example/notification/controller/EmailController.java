@@ -3,6 +3,8 @@ package com.example.notification.controller;
 
 import com.example.notification.service.EmailService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,13 +18,15 @@ public class EmailController {
     // Email gönderme işlemi
 
     @PostMapping("/send")
-    public boolean sendEmail(@RequestParam String receiver) {
+    public ResponseEntity<?> sendEmail(@RequestParam String receiver) {
         try {
             emailService.sendMail(receiver);
-            return true;
+            return ResponseEntity.ok("Email gönderildi");
         } catch (Exception e) {
-            return false;
+            return ResponseEntity.badRequest().body(e.getMessage());
+
         }
     }
-
 }
+
+

@@ -2,5 +2,11 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Belgeler/GitHub/Covid-Vaccine-System" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Belgeler/GitHub/Vaccine-System" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../Belgeler/GitHub/internship-management-system" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../library-management-system" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../proje2/clients" vcs="Git" />
   </component>
 </project>

@@ -4,5 +4,8 @@
     <file url="file://$PROJECT_DIR$/library-management-system/agreement/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/library-management-system/camunda_modeler/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/library-management-system/camunda_modeler/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/library-management-system/discovery-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/library-management-system/job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/library-management-system/notification/src/main/java" charset="UTF-8" />
   </component>
 </project>
