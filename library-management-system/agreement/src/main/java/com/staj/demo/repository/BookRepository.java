@@ -1,7 +1,6 @@
 package com.staj.demo.repository;
 
 import com.staj.demo.model.Book;
-import com.staj.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,7 @@
 package com.staj.demo.controller;
 
 import com.staj.demo.model.Book;
-import com.staj.demo.model.User;
 import com.staj.demo.service.BookService;
-import com.staj.demo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
