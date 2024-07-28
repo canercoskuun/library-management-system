@@ -3,18 +3,11 @@ package com.example.job.schedular;
 import com.staj.demo.model.Agreement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.internal.build.AllowNonPortable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 
@@ -46,11 +39,14 @@ public class JobSchedular {
             if(returnDate.toString().equals(today.toString())){
                 log.info("Sending email to: "+agreement.getUser().getEmail());
                 String receiver=agreement.getUser().getEmail();
-                webClient.post()
-                        .uri("http://localhost:8083/email/send?receiver="+receiver)
-                        .retrieve()
-                        .bodyToMono(String.class)
-                        .block();
+                if(!agreement.getStatus().equals("Returned")){
+                    webClient.post()
+                            .uri("http://localhost:8083/email/send?receiver="+receiver)
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .block();
+                }
+
            }
 
     }
