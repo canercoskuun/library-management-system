@@ -12,6 +12,7 @@
         <module name="job" />
         <module name="demo" />
         <module name="discovery-service" />
+        <module name="gateway-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -19,6 +20,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="job" options="-parameters" />
       <module name="notification" options="-parameters" />
     </option>

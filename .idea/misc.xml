@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/library-management-system/discovery-service/pom.xml" />
         <option value="$PROJECT_DIR$/library-management-system/job/pom.xml" />
         <option value="$PROJECT_DIR$/library-management-system/notification/pom.xml" />
+        <option value="$PROJECT_DIR$/library-management-system/gateway-service/pom.xml" />
       </list>
     </option>
   </component>
