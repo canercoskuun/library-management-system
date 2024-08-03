@@ -2,12 +2,9 @@ package com.staj.demo.service;
 import com.staj.demo.dto.AgreementDto;
 import com.staj.demo.exception.AgreementNotFoundException;
 import com.staj.demo.model.Agreement;
-import com.staj.demo.model.User;
 import com.staj.demo.repository.AgreementRepository;
-import com.staj.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
 
@@ -15,7 +12,7 @@ import java.util.*;
 @Service
 public class AgreementService {
     private AgreementRepository agreementRepository;
-    private UserRepository userRepository;
+
 
     // Kitap ödünç alma işlemi
     public void borrowBook(AgreementDto agreementDto) {
@@ -23,6 +20,7 @@ public class AgreementService {
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
 
+        /*
     //user check
         User user = userRepository.getUserById(agreement.getUser().getId());
         if (user == null) {
@@ -31,6 +29,7 @@ public class AgreementService {
         if(isBookBorrowed(agreement.getBook().getId())) {
             throw new IllegalStateException("Book is already borrowed.");
         }
+*/
 
         // Ödünç alma tarihini bugünün tarihi olarak ayarla
         agreement.setBorrowDate(new Date());

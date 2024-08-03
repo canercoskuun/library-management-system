@@ -4,10 +4,8 @@ package com.example.notification.controller;
 import com.example.notification.service.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/email")
@@ -25,6 +23,11 @@ public class EmailController {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
     }
 }
 

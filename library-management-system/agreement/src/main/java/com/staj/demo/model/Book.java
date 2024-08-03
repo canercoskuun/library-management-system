@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@Entity
 @AllArgsConstructor
+@Entity
 @Table(name = "books")
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +21,5 @@ public class Book {
     private String author;
     @Column(name = "isbn", nullable = false)
     private String isbn;
-
-
 
 }

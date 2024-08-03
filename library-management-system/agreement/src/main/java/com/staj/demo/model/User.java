@@ -1,5 +1,6 @@
 package com.staj.demo.model;
 
+import com.staj.demo.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,9 @@ public class User {
     private String name;
     @Column(name = "surname", nullable = false)
     private String surname;
+    @Column(name="user_type",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
     @Column(name = "email", nullable = false,unique = true)
     private String email;
     @Column(name = "password", nullable = false)

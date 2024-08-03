@@ -32,5 +32,4 @@ public class Agreement {
     private String status;
 
 
-
 }
