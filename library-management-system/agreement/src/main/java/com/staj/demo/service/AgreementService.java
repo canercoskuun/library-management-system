@@ -21,7 +21,7 @@ public class AgreementService {
         Book book = new Book();
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
-        
+
         try {
              book = webClient.get()
                     .uri("http://localhost:8086/api/books/get/"+agreementDto.getBook().getId())
@@ -87,6 +87,21 @@ public class AgreementService {
         if (agreement.getStatus().equals("Returned")) {
             throw new IllegalStateException("Book has already been returned.");
         }
+        Book book= webClient.get()
+                .uri("http://localhost:8086/api/books/get/"+agreement.getBook().getId())
+                .retrieve()
+                .bodyToMono(Book.class)
+                .block();
+        book.setQuantity(book.getQuantity()+1);
+        if(book.getQuantity()>0){
+            book.setAvailability(true);
+        }
+        webClient.put()
+                .uri("http://localhost:8086/api/books/update-book/"+book.getId())
+                .bodyValue(book)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
 
         agreement.setStatus("Returned");
         agreementRepository.save(agreement);
@@ -95,7 +110,6 @@ public class AgreementService {
     public void deleteAgreement(Long agreementId) {
         Agreement agreement = agreementRepository.findById(agreementId)
                 .orElseThrow(() -> new AgreementNotFoundException("Agreement not found with id: " + agreementId));
-
         agreementRepository.delete(agreement);
     }
     public List<Agreement> getAllAgreements() {
