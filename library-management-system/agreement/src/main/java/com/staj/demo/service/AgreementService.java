@@ -21,7 +21,6 @@ public class AgreementService {
         Book book = new Book();
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
-
         try {
              book = webClient.get()
                     .uri("http://localhost:8086/api/books/get/"+agreementDto.getBook().getId())
@@ -29,11 +28,11 @@ public class AgreementService {
                     .bodyToMono(Book.class)
                     .block();
         } catch (Exception e) {
+            //Böyle bir kitap books veritabanında yoksa hata fırlat
             throw new IllegalStateException("Book not found.");
         }
-
-
         if (!book.getAvailability()) {
+            // Kitapların hepsi ödünçteyse hata fırlat
             throw new IllegalStateException("Book is not available.");
         }
         else{
@@ -114,5 +113,9 @@ public class AgreementService {
     }
     public List<Agreement> getAllAgreements() {
         return agreementRepository.findAll();
+    }
+
+    public List<Agreement> getAgreementsByUserId(Long userId) {
+        return agreementRepository.findByUserId(userId);
     }
 }

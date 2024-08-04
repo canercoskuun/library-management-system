@@ -74,6 +74,16 @@ public class AgreementController {
         }
     }
 
+    //Bir userin tüm anlaşmalarını getiren endpoint
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getAgreementsByUserId(@PathVariable Long userId) {
+        try {
+            List<Agreement> agreements = agreementService.getAgreementsByUserId(userId);
+            return ResponseEntity.ok(agreements);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 
 }
