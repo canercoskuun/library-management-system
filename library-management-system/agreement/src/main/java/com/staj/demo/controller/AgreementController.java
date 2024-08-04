@@ -62,16 +62,6 @@ public class AgreementController {
            return ResponseEntity.badRequest().body(e.getMessage());
        }
     }
-    //Kitabın ödünç alınıp alınmadığını kontrol eden endpoint
-    @GetMapping("/books/{bookId}/isBorrowed")
-    public ResponseEntity<?> isBookBorrowed(@PathVariable Long bookId) {
-        try {
-            Boolean isBorrowed = agreementService.isBookBorrowed(bookId);
-            return ResponseEntity.ok(isBorrowed);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 
     //Tüm anlaşmaları getiren endpoint
     @GetMapping("/all")

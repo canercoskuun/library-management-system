@@ -2,9 +2,11 @@ package com.staj.demo.service;
 import com.staj.demo.dto.AgreementDto;
 import com.staj.demo.exception.AgreementNotFoundException;
 import com.staj.demo.model.Agreement;
+import com.staj.demo.model.Book;
 import com.staj.demo.repository.AgreementRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
 
@@ -13,36 +15,47 @@ import java.util.*;
 public class AgreementService {
     private AgreementRepository agreementRepository;
 
-
+    private WebClient webClient;
     // Kitap ödünç alma işlemi
     public void borrowBook(AgreementDto agreementDto) {
         Agreement agreement=new Agreement();
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
 
-        /*
-    //user check
-        User user = userRepository.getUserById(agreement.getUser().getId());
-        if (user == null) {
-            throw new IllegalArgumentException("User with id " + agreement.getUser().getId() + " does not exist.");
+
+        Book book = webClient.get()
+                .uri("http://localhost:8086/api/books/get/"+agreementDto.getBook().getId())
+                .retrieve()
+                .bodyToMono(Book.class)
+                .block();
+
+
+        if (!book.getAvailability()) {
+            throw new IllegalStateException("Book is not available.");
         }
-        if(isBookBorrowed(agreement.getBook().getId())) {
-            throw new IllegalStateException("Book is already borrowed.");
+        else{
+            // Ödünç alma tarihini bugünün tarihi olarak ayarla
+            agreement.setBorrowDate(new Date());
+            book.setQuantity(book.getQuantity()-1);
+            if(book.getQuantity()==0){
+                book.setAvailability(false);
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DAY_OF_MONTH, 15);
+            Date returnDate = calendar.getTime();
+            agreement.setReturnDate(returnDate);
+            agreement.setStatus("Borrowed");
+            agreementRepository.save(agreement);
+            webClient.put()
+                    .uri("http://localhost:8086/api/books/update-book/"+book.getId())
+                    .bodyValue(book)
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+            // Return date'i bugünden 15 gün sonrasına ayarla
+
         }
-*/
-
-        // Ödünç alma tarihini bugünün tarihi olarak ayarla
-        agreement.setBorrowDate(new Date());
-        // Return date'i bugünden 15 gün sonrasına ayarla
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        Date returnDate = calendar.getTime();
-        agreement.setReturnDate(returnDate);
-
-        agreement.setStatus("Borrowed");
-
-        agreementRepository.save(agreement);
     }
 
     // Ödünç süresini uzatma işlemi
@@ -81,18 +94,6 @@ public class AgreementService {
 
         agreementRepository.delete(agreement);
     }
-    // Kitabın ödünç alınıp alınmadığını kontrol eden fonksiyon
-    public Boolean isBookBorrowed(Long bookId) {
-        List<Agreement> agreements = agreementRepository.findAll();
-        for (Agreement agreement : agreements) {
-            if (agreement.getBook().getId().equals(bookId) && !agreement.getStatus().equals("Returned")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     public List<Agreement> getAllAgreements() {
         return agreementRepository.findAll();
     }

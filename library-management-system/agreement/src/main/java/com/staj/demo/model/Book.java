@@ -21,5 +21,13 @@ public class Book {
     private String author;
     @Column(name = "isbn", nullable = false)
     private String isbn;
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+    @Column(name="availability", nullable = false)
+    private boolean availability;
+
+    public boolean getAvailability() {
+        return availability;
+    }
 
 }
