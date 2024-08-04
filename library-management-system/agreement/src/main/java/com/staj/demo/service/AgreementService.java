@@ -14,20 +14,23 @@ import java.util.*;
 @Service
 public class AgreementService {
     private AgreementRepository agreementRepository;
-
     private WebClient webClient;
     // Kitap ödünç alma işlemi
     public void borrowBook(AgreementDto agreementDto) {
         Agreement agreement=new Agreement();
+        Book book = new Book();
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
-
-
-        Book book = webClient.get()
-                .uri("http://localhost:8086/api/books/get/"+agreementDto.getBook().getId())
-                .retrieve()
-                .bodyToMono(Book.class)
-                .block();
+        
+        try {
+             book = webClient.get()
+                    .uri("http://localhost:8086/api/books/get/"+agreementDto.getBook().getId())
+                    .retrieve()
+                    .bodyToMono(Book.class)
+                    .block();
+        } catch (Exception e) {
+            throw new IllegalStateException("Book not found.");
+        }
 
 
         if (!book.getAvailability()) {
@@ -47,6 +50,7 @@ public class AgreementService {
             agreement.setReturnDate(returnDate);
             agreement.setStatus("Borrowed");
             agreementRepository.save(agreement);
+
             webClient.put()
                     .uri("http://localhost:8086/api/books/update-book/"+book.getId())
                     .bodyValue(book)
