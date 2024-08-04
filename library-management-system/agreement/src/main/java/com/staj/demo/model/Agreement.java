@@ -1,4 +1,5 @@
 package com.staj.demo.model;
+import com.staj.demo.enums.StatusType;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
@@ -29,7 +30,8 @@ public class Agreement {
     private Date returnDate;
 
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
 
 
 }

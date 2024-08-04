@@ -1,5 +1,6 @@
 package com.staj.demo.service;
 import com.staj.demo.dto.AgreementDto;
+import com.staj.demo.enums.StatusType;
 import com.staj.demo.exception.AgreementNotFoundException;
 import com.staj.demo.model.Agreement;
 import com.staj.demo.model.Book;
@@ -47,7 +48,7 @@ public class AgreementService {
             calendar.add(Calendar.DAY_OF_MONTH, 15);
             Date returnDate = calendar.getTime();
             agreement.setReturnDate(returnDate);
-            agreement.setStatus("Borrowed");
+            agreement.setStatus(StatusType.BORROWED);
             agreementRepository.save(agreement);
 
             webClient.put()
@@ -66,7 +67,7 @@ public class AgreementService {
         Agreement agreement = agreementRepository.findById(agreementId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid agreement Id:" + agreementId));
 
-        if (agreement.getStatus().equals("Returned")) {
+        if (agreement.getStatus().equals(StatusType.RETURNED)) {
             throw new IllegalStateException("Cannot extend return date for a book that has already been returned.");
         }
         // Return date'i 15 gün ekleyerek uzat
@@ -75,7 +76,7 @@ public class AgreementService {
         calendar.add(Calendar.DAY_OF_MONTH, 15);
         Date newReturnDate = calendar.getTime();
         agreement.setReturnDate(newReturnDate);
-        agreement.setStatus("Extended");
+        agreement.setStatus(StatusType.EXTENDED);
         agreementRepository.save(agreement);
     }
     // Kitap iade işlemi
@@ -83,7 +84,7 @@ public class AgreementService {
         Agreement agreement = agreementRepository.findById(agreementId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid agreement Id:" + agreementId));
 
-        if (agreement.getStatus().equals("Returned")) {
+        if (agreement.getStatus().equals(StatusType.RETURNED)) {
             throw new IllegalStateException("Book has already been returned.");
         }
         Book book= webClient.get()
@@ -102,7 +103,7 @@ public class AgreementService {
                 .bodyToMono(Void.class)
                 .block();
 
-        agreement.setStatus("Returned");
+        agreement.setStatus(StatusType.RETURNED);
         agreementRepository.save(agreement);
     }
     // Agreement silme işlemi
