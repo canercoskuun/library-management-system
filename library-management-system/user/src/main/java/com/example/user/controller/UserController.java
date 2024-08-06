@@ -1,12 +1,9 @@
 package com.example.user.controller;
-
 import com.example.user.dto.UserDto;
 import com.example.user.model.User;
 import com.example.user.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
