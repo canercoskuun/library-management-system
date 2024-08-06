@@ -9,11 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private UserService userService;
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/create-user")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         try {
@@ -39,7 +45,12 @@ public class UserController {
     @GetMapping("/get-user-by-email")
     public  ResponseEntity<?> getUserByEmail(@RequestParam String email) {
         try {
-            return ResponseEntity.ok(userService.getUserByEmail(email));
+            User user = userService.getUserByEmail(email);
+            if(user==null){
+                return ResponseEntity.badRequest().body("User not found");
+            }
+            return ResponseEntity.ok(user);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
