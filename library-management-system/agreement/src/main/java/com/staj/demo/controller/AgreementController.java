@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api/agreements")
 public class AgreementController {
     private  AgreementService agreementService;
-    @PostMapping("/borrow")
+    @PostMapping("user/borrow")
     public ResponseEntity<?> borrowBook(@RequestBody AgreementDto agreementDto) {
         try {
             agreementService.borrowBook(agreementDto);
@@ -32,7 +32,7 @@ public class AgreementController {
 }
      */
     // Ödünç süresini uzatma işlemi için PUT endpoint'i
-    @PutMapping("/{agreementId}/extend")
+    @PutMapping("user/{agreementId}/extend")
     public ResponseEntity<?> extendBorrowDate(@PathVariable Long agreementId) {
         try {
             agreementService.extendBorrowDate(agreementId);
@@ -42,7 +42,7 @@ public class AgreementController {
         }
     }
     //Kitap iade endpoint'i
-    @PutMapping("/{agreementId}/return")
+    @PutMapping("user/{agreementId}/return")
     public ResponseEntity<?> returnBook(@PathVariable Long agreementId) {
         try {
             agreementService.returnBook(agreementId);
@@ -52,7 +52,7 @@ public class AgreementController {
         }
     }
     // Agreement silme işlemi
-    @DeleteMapping("/{id}")
+    @DeleteMapping("admin/{id}")
     public ResponseEntity<?> deleteAgreement(@PathVariable(name = "id") Long id) {
         try{
             agreementService.deleteAgreement(id);
@@ -64,7 +64,7 @@ public class AgreementController {
     }
 
     //Tüm anlaşmaları getiren endpoint
-    @GetMapping("/all")
+    @GetMapping("admin/all")
     public ResponseEntity<?> getAllAgreements() {
         try {
             List<Agreement> agreements = agreementService.getAllAgreements();
@@ -75,7 +75,7 @@ public class AgreementController {
     }
 
     //Bir userin tüm anlaşmalarını getiren endpoint
-    @GetMapping("/user/{userId}")
+    @GetMapping("admin/user/{userId}")
     public ResponseEntity<?> getAgreementsByUserId(@PathVariable Long userId) {
         try {
             List<Agreement> agreements = agreementService.getAgreementsByUserId(userId);
