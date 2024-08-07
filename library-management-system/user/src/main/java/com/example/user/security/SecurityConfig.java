@@ -24,11 +24,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig{
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
-
-    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
-    }
 /*
     @Bean
     public UserDetailsService userDetailsService(){
@@ -57,10 +52,11 @@ public class SecurityConfig{
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-user").permitAll()) // herkes kullanıcı kaydı olabilir
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-user"
+                        ,"api/users/get-user-by-email").permitAll()) // herkes kullanıcı kaydı olabilir
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-supervisor").hasRole("ADMIN")) // sadece admin supervisor kaydedebilir
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/all"
-                        ,"api/users/get-user-by-email").hasAnyRole("LIBRARYSUPERVISOR","ADMIN")) // admin ve supervisor herkesi görebilir
+                   ).hasAnyRole("LIBRARYSUPERVISOR","ADMIN")) // admin ve supervisor herkesi görebilir
                 .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
@@ -68,7 +64,7 @@ public class SecurityConfig{
         return security.build();
     }
 
-
+//UserType.USER.name()
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
