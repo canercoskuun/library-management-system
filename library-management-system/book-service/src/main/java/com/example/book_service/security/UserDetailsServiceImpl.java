@@ -25,6 +25,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = webClient.get().uri("http://localhost:8089/api/users/get-user-by-email?email="+username)
+                .headers(httpHeaders -> httpHeaders.setBasicAuth("admin", "admin"))
                 .retrieve()
                 .bodyToMono(User.class)
                 .block();
