@@ -26,7 +26,8 @@ public class JobSchedular {
         LocalDate today = LocalDate.now();
         log.info("Today: "+today);
         List<Agreement> agreements=webClient.get()
-                .uri("http://localhost:8081/api/agreements/all")
+                .uri("http://localhost:8081/api/agreements/admin/all")
+                .headers(httpHeaders -> httpHeaders.setBasicAuth("admin","admin"))
                 .retrieve()
                 .bodyToFlux(Agreement.class)
                 .collectList()
