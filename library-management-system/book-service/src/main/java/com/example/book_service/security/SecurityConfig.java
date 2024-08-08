@@ -22,7 +22,7 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/books/all","api/books/get/**","api/books/get-book-by-title").permitAll()) // herkes kullanıcı kaydı olabilir
-                .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
+                .authorizeHttpRequests(auth-> auth.anyRequest().hasAnyRole("ADMIN","LIBRARYSUPERVISOR"))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
 
