@@ -52,11 +52,10 @@ public class SecurityConfig{
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-user"
-                        ,"api/users/get-user-by-email").permitAll()) // herkes kullanıcı kaydı olabilir
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-user").permitAll()) // herkes kullanıcı kaydı olabilir
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-supervisor").hasRole("ADMIN")) // sadece admin supervisor kaydedebilir
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/all"
-                   ).hasAnyRole("LIBRARYSUPERVISOR","ADMIN")) // admin ve supervisor herkesi görebilir
+                        ,"api/users/get-user-by-email").hasAnyRole("LIBRARYSUPERVISOR","ADMIN")) // admin ve supervisor herkesi görebilir
                 .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
