@@ -1,5 +1,6 @@
 package com.example.user.security;
 
+import com.example.user.enums.UserType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,17 +54,16 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-user").permitAll()) // herkes kullanıcı kaydı olabilir
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-supervisor").hasRole("ADMIN")) // sadece admin supervisor kaydedebilir
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/create-supervisor").hasRole(UserType.ADMIN.name())) // sadece admin supervisor kaydedebilir
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/users/all"
-                        ,"api/users/get-user-by-email").hasAnyRole("LIBRARYSUPERVISOR","ADMIN")) // admin ve supervisor herkesi görebilir
+                        ,"api/users/get-user-by-email").hasAnyRole(UserType.ADMIN.name(),UserType.LIBRARYSUPERVISOR.name())) // admin ve supervisor herkesi görebilir
                 .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
 
         return security.build();
     }
-
-//UserType.USER.name()
+    
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
