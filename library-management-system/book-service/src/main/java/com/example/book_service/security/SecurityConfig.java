@@ -1,5 +1,6 @@
 package com.example.book_service.security;
 
+import com.example.book_service.enums.UserType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -22,7 +23,7 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/books/all","api/books/get/**","api/books/get-book-by-title").permitAll()) // herkes kullanıcı kaydı olabilir
-                .authorizeHttpRequests(auth-> auth.anyRequest().hasAnyRole("ADMIN","LIBRARYSUPERVISOR"))
+                .authorizeHttpRequests(auth-> auth.anyRequest().hasAnyRole(UserType.ADMIN.name(), UserType.LIBRARYSUPERVISOR.name()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
 

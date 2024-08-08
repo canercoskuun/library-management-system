@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/agreements")
 public class AgreementController {
-    private  AgreementService agreementService;
+
+    private final AgreementService agreementService;
+
+    public AgreementController(AgreementService agreementService) {
+        this.agreementService = agreementService;
+    }
+
     @PostMapping("user/borrow")
     public ResponseEntity<?> borrowBook(@RequestBody AgreementDto agreementDto) {
         try {

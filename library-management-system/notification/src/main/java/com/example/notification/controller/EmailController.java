@@ -6,11 +6,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/email")
 public class EmailController {
-    private EmailService emailService;
+    private final EmailService emailService;
+
+    public EmailController(EmailService emailService) {
+        this.emailService = emailService;
+    }
 
     // Email gönderme işlemi
 

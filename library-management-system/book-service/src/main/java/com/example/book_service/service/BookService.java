@@ -27,7 +27,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public void updateBook(Long id, BookDto bookDto) {
+    public Book updateBook(Long id, BookDto bookDto) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
         book.setAuthor(bookDto.getAuthor());
         book.setTitle(bookDto.getTitle());
@@ -35,6 +35,7 @@ public class BookService {
         book.setQuantity(bookDto.getQuantity());
         book.setAvailability(bookDto.getAvailability());
         bookRepository.save(book);
+        return book;
     }
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));

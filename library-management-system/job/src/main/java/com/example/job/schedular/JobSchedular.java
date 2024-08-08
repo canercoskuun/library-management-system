@@ -15,16 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class JobSchedular {
-
     private WebClient webClient;
-
-
-
     //everyday at 08:30
     @Scheduled(cron = "0 30 08 * * ?")
     public void sendReminderEmails() {
         LocalDate today = LocalDate.now();
-        log.info("Today: "+today);
         List<Agreement> agreements=webClient.get()
                 .uri("http://localhost:8081/api/agreements/admin/all")
                 .headers(httpHeaders -> httpHeaders.setBasicAuth("admin","admin"))
@@ -35,10 +30,7 @@ public class JobSchedular {
 
         for (Agreement agreement:agreements){
             LocalDate returnDate= agreement.getReturnDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            System.out.println("Return Date: "+returnDate);
             if(returnDate.toString().equals(today.toString())){
-                log.info("Sending email to: "+agreement.getUser().getEmail());
                 String receiver=agreement.getUser().getEmail();
                 if(!agreement.getStatus().equals("Returned")){
                     webClient.post()
@@ -46,6 +38,7 @@ public class JobSchedular {
                             .retrieve()
                             .bodyToMono(String.class)
                             .block();
+                    log.info("Email sent to: " + receiver);
                 }
 
            }

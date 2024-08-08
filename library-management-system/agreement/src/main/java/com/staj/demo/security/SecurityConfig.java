@@ -1,5 +1,6 @@
 package com.staj.demo.security;
 
+import com.example.user.enums.UserType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -20,7 +21,7 @@ public class SecurityConfig{
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/agreements/admin/**").hasAnyRole("ADMIN","LIBRARYSUPERVISOR"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/agreements/admin/**").hasAnyRole(UserType.ADMIN.name(),UserType.LIBRARYSUPERVISOR.name()))
                 .authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
