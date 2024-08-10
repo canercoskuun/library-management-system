@@ -3,6 +3,7 @@ import com.staj.demo.dto.AgreementDto;
 import com.staj.demo.model.Agreement;
 import com.staj.demo.service.AgreementService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -20,8 +21,7 @@ public class AgreementController {
     @PostMapping("user/borrow")
     public ResponseEntity<?> borrowBook(@RequestBody AgreementDto agreementDto) {
         try {
-            agreementService.borrowBook(agreementDto);
-            return ResponseEntity.ok("Book borrowed successfully");
+          return new ResponseEntity<>(agreementService.borrowBook(agreementDto), HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -40,8 +40,7 @@ public class AgreementController {
     @PutMapping("user/{agreementId}/extend")
     public ResponseEntity<?> extendBorrowDate(@PathVariable Long agreementId) {
         try {
-            agreementService.extendBorrowDate(agreementId);
-            return ResponseEntity.ok("Borrow date extended successfully");
+            return new ResponseEntity<>(agreementService.extendBorrowDate(agreementId), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -50,8 +49,7 @@ public class AgreementController {
     @PutMapping("user/{agreementId}/return")
     public ResponseEntity<?> returnBook(@PathVariable Long agreementId) {
         try {
-            agreementService.returnBook(agreementId);
-            return ResponseEntity.ok("Book returned successfully");
+            return new ResponseEntity<>(agreementService.returnBook(agreementId), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -72,8 +70,7 @@ public class AgreementController {
     @GetMapping("admin/all")
     public ResponseEntity<?> getAllAgreements() {
         try {
-            List<Agreement> agreements = agreementService.getAllAgreements();
-            return ResponseEntity.ok(agreements);
+            return new ResponseEntity<>(agreementService.getAllAgreements(),HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -83,12 +80,9 @@ public class AgreementController {
     @GetMapping("admin/user/{userId}")
     public ResponseEntity<?> getAgreementsByUserId(@PathVariable Long userId) {
         try {
-            List<Agreement> agreements = agreementService.getAgreementsByUserId(userId);
-            return ResponseEntity.ok(agreements);
+            return new ResponseEntity<>(agreementService.getAgreementsByUserId(userId), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }
