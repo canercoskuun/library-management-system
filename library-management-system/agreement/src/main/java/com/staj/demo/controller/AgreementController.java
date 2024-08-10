@@ -1,12 +1,9 @@
 package com.staj.demo.controller;
 import com.staj.demo.dto.AgreementDto;
-import com.staj.demo.model.Agreement;
 import com.staj.demo.service.AgreementService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/agreements")
