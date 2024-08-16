@@ -1,5 +1,6 @@
 package com.example.job.schedular;
 
+import com.staj.demo.enums.StatusType;
 import com.staj.demo.model.Agreement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class JobSchedular {
             LocalDate returnDate= agreement.getReturnDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if(returnDate.toString().equals(today.toString())){
                 String receiver=agreement.getUser().getEmail();
-                if(!agreement.getStatus().equals("Returned")){
+                if(!agreement.getStatus().equals(StatusType.RETURNED)){
                     webClient.post()
                             .uri("http://localhost:8083/email/send?receiver="+receiver)
                             .retrieve()

@@ -1,25 +1,13 @@
 package com.staj.demo.service;
-import com.netflix.discovery.converters.Auto;
 import com.staj.demo.dto.AgreementDto;
 import com.staj.demo.enums.StatusType;
 import com.staj.demo.exception.AgreementNotFoundException;
 import com.staj.demo.model.Agreement;
 import com.staj.demo.model.Book;
 import com.staj.demo.repository.AgreementRepository;
-import com.staj.demo.security.UserDetailsImpl;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.sql.SQLOutput;
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -52,6 +40,7 @@ public class AgreementService {
                 log.warn("Book not found");
                 throw new IllegalStateException("Book not found.");
             }
+
 
             // Kitap stokta yoksa hata fırlat
             if (!book.getAvailability()) {
