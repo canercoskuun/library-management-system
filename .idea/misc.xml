@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/library-management-system/gateway-service/pom.xml" />
         <option value="$PROJECT_DIR$/library-management-system/user/pom.xml" />
         <option value="$PROJECT_DIR$/library-management-system/book-service/pom.xml" />
+        <option value="$PROJECT_DIR$/library-management-system/config-server/pom.xml" />
       </list>
     </option>
   </component>

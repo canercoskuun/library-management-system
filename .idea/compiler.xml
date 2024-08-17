@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="StajProjectModeler" />
         <module name="notification" />
+        <module name="config-server" />
         <module name="book-service" />
         <module name="gateway-service" />
         <module name="job" />
@@ -21,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="book-service" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
