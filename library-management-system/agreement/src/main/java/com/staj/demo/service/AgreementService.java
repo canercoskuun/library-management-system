@@ -1,4 +1,5 @@
 package com.staj.demo.service;
+import com.staj.demo.client.BookClient;
 import com.staj.demo.dto.AgreementDto;
 import com.staj.demo.enums.StatusType;
 import com.staj.demo.exception.AgreementNotFoundException;
@@ -14,11 +15,11 @@ import java.util.*;
 @Service
 public class AgreementService {
     private final AgreementRepository agreementRepository;
-    private final WebClient webClient;
+    private final BookClient bookClient;
 
-    public AgreementService(AgreementRepository agreementRepository, WebClient webClient) {
+    public AgreementService(AgreementRepository agreementRepository,BookClient bookClient) {
         this.agreementRepository = agreementRepository;
-        this.webClient = webClient;
+        this.bookClient = bookClient;
     }
 
     // Kitap ödünç alma işlemi
@@ -29,12 +30,9 @@ public class AgreementService {
         agreement.setUser(agreementDto.getUser());
 
         try {
+
             // Kitap bilgilerini al
-            book = webClient.get()
-                    .uri("http://localhost:8086/api/books/get/" + agreementDto.getBook().getId())
-                    .retrieve()
-                    .bodyToMono(Book.class)
-                    .block();
+            book=bookClient.getBookById(agreementDto.getBook().getId());
             // Böyle bir kitap mevcut değilse hata fırlat
             if (book == null) {
                 log.warn("Book not found");
@@ -71,14 +69,7 @@ public class AgreementService {
             agreementRepository.save(agreement);
 
             // Kitap bilgilerini güncelle
-            webClient.put()
-                    .uri("http://localhost:8086/api/books/update-book/" + book.getId())
-                    .headers(headers -> headers.setBasicAuth("admin", "admin"))
-                    .bodyValue(book)
-                    .retrieve()
-                    .bodyToMono(Void.class)
-                    .doOnError(e -> System.err.println("Hata: " + e.getMessage()))
-                    .block();
+            bookClient.updateBook(book);
             log.info("Book borrowed successfully");
             return agreement;
 
@@ -115,26 +106,14 @@ public class AgreementService {
         if (agreement.getStatus().equals(StatusType.RETURNED)) {
             throw new IllegalStateException("Book has already been returned.");
         }
-        Book book= webClient.get()
-                .uri("http://localhost:8086/api/books/get/"+agreement.getBook().getId())
-                .retrieve()
-                .bodyToMono(Book.class)
-                .block();
+        Book book=bookClient.getBookById(agreement.getBook().getId());
+
         book.setQuantity(book.getQuantity()+1);
         if(book.getQuantity()>0){
             book.setAvailability(true);
         }
 
-
-        webClient.put()
-                .uri("http://localhost:8086/api/books/update-book/" + book.getId())
-                .headers(headers -> headers.setBasicAuth("admin", "admin"))
-                .bodyValue(book)
-                .retrieve()
-                .bodyToMono(Void.class)
-                .doOnError(e -> System.err.println("Hata: " + e.getMessage()))
-                .block();
-
+        bookClient.updateBook(book);
 
         // Kitap iade tarihini bugünün tarihi olarak ayarla
         agreement.setReturnDate(new Date());
