@@ -29,6 +29,11 @@ public class AgreementService {
         agreement.setBook(agreementDto.getBook());
         agreement.setUser(agreementDto.getUser());
 
+        Agreement existingAgreement = agreementRepository.findByUserAndBook(agreementDto.getUser(), agreementDto.getBook());
+        if(existingAgreement != null && !existingAgreement.getStatus().equals(StatusType.RETURNED)){
+            throw new IllegalStateException("User has already borrowed this book.");
+        }
+
         try {
 
             // Kitap bilgilerini al
