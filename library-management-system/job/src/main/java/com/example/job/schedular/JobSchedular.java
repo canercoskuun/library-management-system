@@ -18,7 +18,7 @@ import java.util.List;
 public class JobSchedular {
     private WebClient webClient;
     //everyday at 08:30
-    @Scheduled(cron = "0 30 08 * * ?")
+    @Scheduled(cron = "0 55 11 * * ?")
     public void sendReminderEmails() {
         LocalDate today = LocalDate.now();
         List<Agreement> agreements=webClient.get()
