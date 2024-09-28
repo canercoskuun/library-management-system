@@ -16,5 +16,6 @@ This is a Library Management System built with Spring Boot. The project is desig
 
 ## Technologies
 **Backend**: Java, Spring Boot, Spring Security
+
 **Database**: PostgreSQL
 
