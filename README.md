@@ -10,6 +10,6 @@ This is a Library Management System built with Spring Boot. The project is desig
 -**Gateway Service**: Routes requests to appropriate microservices.
 
 ## Technologies
-**Backend**: Java, Spring Boot, Spring Security
-**Database**: PostgreSQL
+-**Backend**: Java, Spring Boot, Spring Security
+-**Database**: PostgreSQL
 
